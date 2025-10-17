@@ -1,0 +1,16 @@
+[submodule "poky"]
+	path = poky
+	url = https://github.com/yoctoproject/poky.git
+	branch = scarthgap
+[submodule "meta-raspberrypi"]
+	path = meta-raspberrypi
+	url = https://github.com/agherzan/meta-raspberrypi.git
+	branch = scarthgap
+[submodule "meta-openembedded"]
+	path = meta-openembedded
+	url = https://github.com/openembedded/meta-openembedded.git
+	branch = scarthgap
+[submodule "meta-lts-mixins"]
+	path = meta-lts-mixins
+	url = https://github.com/moto-timo/meta-lts-mixins.git
+	branch = scarthgap/u-boot
