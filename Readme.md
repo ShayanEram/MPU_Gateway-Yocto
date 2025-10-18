@@ -3,6 +3,8 @@
 ## Overview
 This project builds a **custom Yocto Linux distribution** for the Raspberry Pi 5, tailored for **embedded uav applications**. It integrates a C++17 UAV gateway application (`UAV`) with support for **TCP/IP sockets**, **GPIO**, **I²C**, **SPI**, **UART**, and **PWM**. The image is production‑ready, reproducible, and managed with **systemd** for robust service deployment.
 
+This layer includes a recipe (`uav.bb`) for the [Unmanned-Aerial-Vehicle](https://github.com/ShayanEram/MPU_Unmanned-Aerial-Vehicle) project.
+
 ---
 
 ## Features
