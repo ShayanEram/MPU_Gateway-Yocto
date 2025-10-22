@@ -1,0 +1,12 @@
+[Unit]
+Description=Gateway Main Application
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/Gateway
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target

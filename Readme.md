@@ -1,9 +1,9 @@
-# Yocto‑Based Embedded Linux for project UAV on Raspberry Pi 5
+# Yocto‑Based Embedded Linux for Gateway on Raspberry Pi 5
 
 ## Overview
-This project builds a **custom Yocto Linux distribution** for the Raspberry Pi 5, tailored for **embedded uav applications**. It integrates a C++17 UAV gateway application (`UAV`) with support for **TCP/IP sockets**, **GPIO**, **I²C**, **SPI**, **UART**, and **PWM**. The image is production‑ready, reproducible, and managed with **systemd** for robust service deployment.
+This project builds a **custom Yocto Linux distribution** for the Raspberry Pi 5, tailored for **industrial IoT gateway applications**. It integrates a C++17 **Gateway** application (`Gateway`) with support for **TCP/IP sockets**, **GPIO**, **I²C**, **SPI**, **UART**, and **PWM**. The image is **production‑ready, reproducible, and systemd‑managed** for robust deployment in edge environments.
 
-This layer includes a recipe (`uav.bb`) for the [Unmanned-Aerial-Vehicle](https://github.com/ShayanEram/MPU_Unmanned-Aerial-Vehicle) project.
+This layer includes a recipe (`gateway.bb`) for the [MPU_Gateway](https://github.com/ShayanEram/MPU_Gateway) project.
 
 ---
 
@@ -16,12 +16,12 @@ This layer includes a recipe (`uav.bb`) for the [Unmanned-Aerial-Vehicle](https:
   - GPIO via `libgpiod` (`/dev/gpiochip*`)
   - PWM (`/sys/class/pwm/pwmchip*`)
 - **Custom boot**:
-  - U-Boot
+  - U‑Boot
 - **Networking**:
   - Ethernet (default)
   - Wi‑Fi via `connman`
-- **C++17 UAV application**:
-  - Modular architecture (`Inc/`, `Src/`)
+- **C++17 Gateway application**:
+  - Modular managers: `ProtocolManager`, `DataManager`, `CloudManager`, `DeviceManager`, `OtaManager`
   - Multithreaded TCP/IP server
   - Unit tests (GoogleTest) toggleable via `-DBUILD_TESTS=ON/OFF`
 - **Systemd integration**:
@@ -33,14 +33,14 @@ This layer includes a recipe (`uav.bb`) for the [Unmanned-Aerial-Vehicle](https:
 
 ## Repository Structure
 ```
-meta-devpi/                 # Custom Yocto layer
+meta-gateway/               # Custom Yocto layer
   recipes-apps/
-    recipes-apps/
-        uav.bb              # Recipe for UAV app
-        uav.service         # systemd unit
+    gateway/
+        gateway.bb          # Recipe for Gateway app
+        gateway.service     # systemd unit
 conf/
-  local.conf                 # Machine + interface configs
-  bblayers.conf              # Layer configuration
+  local.conf                # Machine + interface configs
+  bblayers.conf             # Layer configuration
 ```
 
 ---
@@ -54,8 +54,8 @@ git clone -b scarthgap https://github.com/agherzan/meta-raspberrypi.git
 git clone -b scarthgap https://github.com/openembedded/meta-openembedded.git
 git submodule add -b scarthgap/u-boot https://github.com/moto-timo/meta-lts-mixins.git meta-lts-mixins
 
-bitbake-layers create-layer meta-devpi
-bitbake-layers add-layer ../meta-raspberrypi ../meta-openembedded/meta-oe ../meta-devpi ../meta-lts-mixins
+bitbake-layers create-layer meta-gateway
+bitbake-layers add-layer ../meta-raspberrypi ../meta-openembedded/meta-oe ../meta-gateway ../meta-lts-mixins
 ```
 
 ### 2. Configure Build
@@ -66,9 +66,7 @@ INIT_MANAGER = "systemd"
 
 # Enable interfaces
 # Networking
-# Tools
-# UAV app
-
+# Gateway app
 ```
 
 ### 3. Build Image
@@ -85,21 +83,21 @@ sudo dd if=tmp/deploy/images/raspberrypi5/core-image-minimal-raspberrypi5.wic of
 
 ---
 
-## UAV Application
+## Gateway Application
 
 ### Build System
-- **CMake** project with `Inc/`, `Src/`, and `Tests/`
+- **CMake** project with `Inc/`, `Src/`, `Tests/`
 - Tests disabled in Yocto via:
   ```bitbake
   EXTRA_OECMAKE = "-DBUILD_TESTS=OFF"
   ```
 
 ### Runtime
-- Installed to `/usr/bin/UAV`
+- Installed to `/usr/bin/Gateway`
 - Managed by systemd:
   ```bash
-  systemctl status mpu-uav.service
-  journalctl -u mpu-uav.service
+  systemctl status mpu-gateway.service
+  journalctl -u mpu-gateway.service
   ```
 
 ---
@@ -137,4 +135,4 @@ This project is licensed under the terms specified in the source repositories. T
 
 ## Author
 **Shayan Eram**  
-Embedded Systems Engineer | Firmware Specialist | IoT & Edge AI Innovator  
+Embedded Systems Engineer | Firmware Specialist | IoT & Edge AI Innovator 
